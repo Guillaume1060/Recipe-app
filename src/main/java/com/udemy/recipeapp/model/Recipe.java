@@ -25,6 +25,13 @@ public class Recipe {
     private Byte[] image;
     @OneToOne(cascade = CascadeType.ALL)
     private Notes notes;
+
+    @ManyToMany
+    @JoinTable(name = "recipe_category",
+        joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> categories;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
     // mappedBy is the target property on the ingredient class
     private Set<Ingredient> ingredients;
