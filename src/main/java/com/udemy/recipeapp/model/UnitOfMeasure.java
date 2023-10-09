@@ -1,7 +1,9 @@
 package com.udemy.recipeapp.model;
 
 import jakarta.persistence.*;
+import lombok.*;
 
+@Data
 @Entity
 public class UnitOfMeasure {
     @Id
@@ -13,19 +15,4 @@ public class UnitOfMeasure {
     @OneToOne
     private Ingredient ingredient;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }
