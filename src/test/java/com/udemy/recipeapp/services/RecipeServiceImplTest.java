@@ -1,5 +1,7 @@
 package com.udemy.recipeapp.services;
 
+import com.udemy.recipeapp.converters.RecipeCommandToRecipe;
+import com.udemy.recipeapp.converters.RecipeToRecipeCommand;
 import com.udemy.recipeapp.model.Recipe;
 import com.udemy.recipeapp.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,12 +20,16 @@ class RecipeServiceImplTest {
     RecipeServiceImpl recipeService;
     @Mock
     RecipeRepository recipeRepository;
+    @Mock
+    RecipeCommandToRecipe recipeCommandToRecipe;
+    @Mock
+    RecipeToRecipeCommand recipeToRecipeCommand;
 
     @BeforeEach
     void setUp() {
         // Tells Mockito to give a mock RecipeRepository
         MockitoAnnotations.openMocks(this);
-        recipeService = new RecipeServiceImpl(recipeRepository);
+        recipeService = new RecipeServiceImpl(recipeRepository, recipeCommandToRecipe, recipeToRecipeCommand);
     }
 
     @Test
