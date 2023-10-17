@@ -60,4 +60,16 @@ class RecipeServiceImplTest {
         // Below to check there's only one call to the repo
         verify(recipeRepository, times(1)).findAll();
     }
+
+    @Test
+    public void TestDeleteByID() {
+        // given
+        Long idToDelete = Long.valueOf(2L);
+        // when
+        recipeService.deleteRecipe(idToDelete);
+        // no 'when' since method has void return
+
+        // then
+        verify(recipeRepository,times(1)).deleteById(anyLong());
+    }
 }

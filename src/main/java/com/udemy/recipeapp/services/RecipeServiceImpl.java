@@ -5,6 +5,7 @@ import com.udemy.recipeapp.converters.RecipeCommandToRecipe;
 import com.udemy.recipeapp.converters.RecipeToRecipeCommand;
 import com.udemy.recipeapp.model.Recipe;
 import com.udemy.recipeapp.repositories.RecipeRepository;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +44,12 @@ public class RecipeServiceImpl implements RecipeService{
     }
 
     @Override
+    @Transactional
+    public RecipeCommand findCommandById(Long L) {
+        return recipeToRecipeCommand.convert(findById(L));
+    }
+
+    @Override
     public RecipeCommand saveRecipeCommand(RecipeCommand command) {
         Recipe detachedRecipe = recipeCommandToRecipe.convert(command);
 
@@ -50,5 +57,10 @@ public class RecipeServiceImpl implements RecipeService{
         log.debug("Saved RecipeId:"+savedRecipe.getId());
         return recipeToRecipeCommand.convert(savedRecipe);
 
+    }
+
+    @Override
+    public void deleteRecipe(Long L) {
+        recipeRepository.deleteById(L);
     }
 }
