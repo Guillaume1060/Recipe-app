@@ -50,9 +50,8 @@ public class RecipeControllerTest {
         when(recipeService.findById(anyLong())).thenReturn(recipe);
         mockMvc.perform(get("/recipe/1/show"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("recipe/show"));
-//                @todo Check model attributes below
-//                .andExpect(model().attributeExists("recipe"));
+                .andExpect(view().name("recipe/show"))
+                .andExpect(model().attributeExists("recipe"));
     }
 
     @Test
@@ -65,7 +64,7 @@ public class RecipeControllerTest {
                 .andExpect(model().attributeExists("recipe"));
     }
 
-//    @TODO check these tests.
+//    @TODO check this test.
 //    @Test
 //    public void testPostNewRecipeForm() throws Exception {
 //        RecipeCommand command = new RecipeCommand();
@@ -75,25 +74,25 @@ public class RecipeControllerTest {
 //
 //        mockMvc.perform(MockMvcRequestBuilders.post("/recipe")
 //                                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-////                              .param("id", "")
-////                              .param("description", "some string")
+//                                .param("id", "")
+//                                .param("description", "some string")
 //                )
 //                .andExpect(status().is3xxRedirection())
 //                .andExpect(view().name("redirect:/recipe/2/show"));
 //    }
 
-//    @Test
-//    public void testGetUpdateView() throws Exception {
-//        RecipeCommand command = new RecipeCommand();
-//        command.setId(2L);
-//
-//        when(recipeService.findCommandById(anyLong())).thenReturn(command);
-//
-//        mockMvc.perform(get("/recipe/1/update"))
-//                .andExpect(status().isOk())
-//                .andExpect(view().name("recipe/recipeform"))
-//                .andExpect(model().attributeExists("recipe"));
-//    }
+    @Test
+    public void testGetUpdateView() throws Exception {
+        RecipeCommand command = new RecipeCommand();
+        command.setId(2L);
+
+        when(recipeService.findCommandById(anyLong())).thenReturn(command);
+
+        mockMvc.perform(get("/recipe/1/update"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("recipe/recipeform"))
+                .andExpect(model().attributeExists("recipe"));
+    }
 
     @Test
     public void testDeleteAction () throws Exception {
