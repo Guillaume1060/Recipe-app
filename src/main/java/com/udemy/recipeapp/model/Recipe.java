@@ -7,7 +7,8 @@ import org.hibernate.engine.internal.Cascade;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class Recipe {
     @Id
