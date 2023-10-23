@@ -3,6 +3,7 @@ package com.udemy.recipeapp.services;
 import com.udemy.recipeapp.commands.RecipeCommand;
 import com.udemy.recipeapp.converters.RecipeCommandToRecipe;
 import com.udemy.recipeapp.converters.RecipeToRecipeCommand;
+import com.udemy.recipeapp.exceptions.NotFoundException;
 import com.udemy.recipeapp.model.Recipe;
 import com.udemy.recipeapp.repositories.RecipeRepository;
 import jakarta.transaction.Transactional;
@@ -38,7 +39,7 @@ public class RecipeServiceImpl implements RecipeService{
     public Recipe findById(Long id) {
         Optional<Recipe> recipe =recipeRepository.findById(id);
         if (recipe.isEmpty()) {
-            throw new RuntimeException("Recipe not found");
+            throw new NotFoundException("Recipe not found. For ID value: "+ id.toString());
         }
         return recipe.get();
     }
@@ -54,6 +55,7 @@ public class RecipeServiceImpl implements RecipeService{
     public RecipeCommand saveRecipeCommand(RecipeCommand command) {
         Recipe detachedRecipe = recipeCommandToRecipe.convert(command);
 
+        assert detachedRecipe != null;
         Recipe savedRecipe = recipeRepository.save(detachedRecipe);
         log.debug("Saved RecipeId:"+savedRecipe.getId());
         return recipeToRecipeCommand.convert(savedRecipe);

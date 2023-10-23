@@ -2,6 +2,7 @@ package com.udemy.recipeapp.services;
 
 import com.udemy.recipeapp.converters.RecipeCommandToRecipe;
 import com.udemy.recipeapp.converters.RecipeToRecipeCommand;
+import com.udemy.recipeapp.exceptions.NotFoundException;
 import com.udemy.recipeapp.model.Recipe;
 import com.udemy.recipeapp.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.lang.reflect.Executable;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -45,6 +47,22 @@ class RecipeServiceImplTest {
         assertNotNull(recipeReturned);
         verify(recipeRepository, times(1)).findById(anyLong());
         verify(recipeRepository,never()).findAll();
+    }
+
+    @Test
+    public void getRecipeByIdTestNotFound() throws Exception {
+        // Given
+        Optional<Recipe> recipeOptional = Optional.empty();
+        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+
+        // When
+        NotFoundException notFoundException = assertThrows(
+                NotFoundException.class, ()->recipeService.findById(1L),
+                "Expected exception to throw an error. But it didn't"
+        );
+
+        // Then
+        assertTrue(notFoundException.getMessage().contains("Recipe not found"));
     }
 
     @Test
